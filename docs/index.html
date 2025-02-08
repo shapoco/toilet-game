@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+
+    <meta name="keywords" content="4択トイレゲーム">
+    <meta name="description" content="一番票が多いトイレを選んだ人がうんこ漏らすゲーム">
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@shapoco" />
+    <meta property="og:url" content="https://shapoco.github.io/toilet-game/" />
+    <meta property="og:title" content="4択トイレゲーム" />
+    <meta property="og:description" content="一番票が多いトイレを選んだ人がうんこ漏らすゲーム" />
+    <meta property="og:image" content="https://shapoco.github.io/toilet-game/cover.png" />
+    
+    <link rel="icon" href="https://shapoco.github.io/favicon192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="https://shapoco.github.io/apple-touch-icon180.png" sizes="180x180">
+    <link rel="shortcut icon" href="https://shapoco.github.io/favicon48.ico">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171109827-1"></script>
+    <script>
+      var remoteHost = window.location.hostname;
+      if (remoteHost == "localhost") {
+        console.log(`Google Analytics disabled on: '${remoteHost}'`);
+      }
+      else {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171109827-1');
+      }
+    </script>
+
+    <style>
+      canvas {
+        box-sizing: border-box;
+        border: solid 1px #ccc;
+        width: 100%;
+        height: auto;
+      }
+    </style>
+    
+    <title>4択トイレゲーム</title>
+  </head>
+
+  <body>
+    <h1 style="display: none;">4択トイレゲーム</h1>
+    
+    <canvas id="canvas" width="1920" height="1080"></canvas>
+
+    <script>
+      const BG_COLOR = '#f8f8f8';
+      const SILVER = '#ddd';
+      const COLORS = ['#d54', '#ea0', '#4a2', '#0F9ED5'];
+      const TEXT_COLOR = '#222';
+      const CHARS = ['A', 'B', 'C', 'D'];
+
+      const DB = [
+        { date: '2017-06-26', total: 33683, percent: [20.2, 25.7, 34.0, 20.1], url: 'https://twitter.com/shapoco/status/879654993464180737' },
+        { date: '2017-12-28', total: 2393 , percent: [21.8, 26.8, 33.0, 18.4], url: 'https://twitter.com/shapoco/status/946651063930646528' },
+        { date: '2018-08-08', total: 516  , percent: [23.8, 28.3, 28.1, 19.8], url: 'https://twitter.com/shapoco/status/1027508911635451904' },
+        { date: '2018-09-12', total: 799  , percent: [25.4, 25.0, 26.7, 22.9], url: 'https://twitter.com/shapoco/status/1040383961971646464' },
+        { date: '2019-09-13', total: 1656 , percent: [23.4, 22.7, 31.2, 22.8], url: 'https://twitter.com/shapoco/status/1172786466725888005' },
+        { date: '2022-03-01', total: 1902 , percent: [20.1, 24.0, 34.1, 21.8], url: 'https://twitter.com/shapoco/status/1498658254800695296' },
+        { date: '2022-05-04', total: 2508 , percent: [22.8, 22.6, 33.7, 20.9], url: 'https://twitter.com/shapoco/status/1521678675699449856' },
+        { date: '2022-06-04', total: 2248 , percent: [21.0, 23.1, 30.6, 25.4], url: 'https://twitter.com/shapoco/status/1533000258502160384' },
+        { date: '2022-09-10', total: 5957 , percent: [22.2, 23.0, 32.0, 22.8], url: 'https://twitter.com/shapoco/status/1568480685249396736' },
+        { date: '2022-10-01', total: 1909 , percent: [25.1, 22.8, 28.5, 23.5], url: 'https://twitter.com/shapoco/status/1576014552533082113' },
+        { date: '2022-12-06', total: 1537 , percent: [24.7, 20.9, 29.8, 24.5], url: 'https://twitter.com/shapoco/status/1600075980361838593' },
+        { date: '2023-01-01', total: 1471 , percent: [22.9, 23.0, 29.6, 24.5], url: 'https://twitter.com/shapoco/status/1609215248455831552' },
+        { date: '2023-02-04', total: 1334 , percent: [25.9, 22.0, 28.9, 23.2], url: 'https://twitter.com/shapoco/status/1621671362485170177' },
+        { date: '2023-04-08', total: 1923 , percent: [24.0, 22.0, 29.2, 24.8], url: 'https://twitter.com/shapoco/status/1644648342880931841' },
+        { date: '2023-07-01', total: 1590 , percent: [23.3, 22.6, 28.4, 25.7], url: 'https://twitter.com/shapoco/status/1674797515974266880' },
+        { date: '2023-08-23', total: 1307 , percent: [25.8, 20.6, 29.7, 23.9], url: 'https://twitter.com/shapoco/status/1694335182193803569' },
+        { date: '2023-09-02', total: 1212 , percent: [24.8, 24.7, 26.8, 23.7], url: 'https://twitter.com/shapoco/status/1697776784396464318' },
+        { date: '2023-10-07', total: 6074 , percent: [24.1, 20.9, 30.3, 24.7], url: 'https://twitter.com/shapoco/status/1710526671714238640' },
+        { date: '2023-11-30', total: 2819 , percent: [27.4, 22.3, 25.3, 25.0], url: 'https://twitter.com/shapoco/status/1729883593978310801' },
+        { date: '2023-12-18', total: 27247, percent: [20.0, 23.2, 31.8, 25.0], url: 'https://twitter.com/shapoco/status/1736746682044621274' },
+        { date: '2024-01-08', total: 2955 , percent: [24.6, 23.6, 26.1, 25.7], url: 'https://twitter.com/shapoco/status/1744323784340041956' },
+        { date: '2024-02-03', total: 2998 , percent: [24.6, 22.5, 28.2, 24.6], url: 'https://twitter.com/shapoco/status/1753625497211437560' },
+        { date: '2024-03-02', total: 2474 , percent: [25.0, 22.4, 26.0, 26.7], url: 'https://twitter.com/shapoco/status/1763849382020161947' },
+        { date: '2024-04-13', total: 1809 , percent: [24.7, 22.9, 27.4, 25.0], url: 'https://twitter.com/shapoco/status/1778953371048894886' },
+        { date: '2024-05-11', total: 1247 , percent: [28.5, 22.3, 23.1, 26.1], url: 'https://twitter.com/shapoco/status/1789068091047268596' },
+        { date: '2024-05-18', total: 3990 , percent: [23.1, 23.2, 27.7, 25.9], url: 'https://x.com/shapoco/status/1791778254665490583' },
+        { date: '2024-05-25', total: 722  , percent: [30.9, 25.5, 19.5, 24.1], url: 'https://x.com/shapoco/status/1794231821129195907' },
+        { date: '2024-06-01', total: 1042 , percent: [23.0, 27.2, 23.3, 26.5], url: 'https://x.com/shapoco/status/1796801501819703456' },
+        { date: '2024-06-08', total: 933  , percent: [26.3, 24.2, 22.6, 26.9], url: 'https://x.com/shapoco/status/1799303772596040065' },
+        { date: '2024-06-15', total: 664  , percent: [27.4, 24.8, 22.4, 25.3], url: 'https://x.com/shapoco/status/1801898848404521444' },
+        { date: '2024-06-22', total: 1042 , percent: [26.2, 22.5, 28.4, 22.9], url: 'https://x.com/shapoco/status/1804367099642700211' },
+        { date: '2024-06-29', total: 968  , percent: [27.1, 24.1, 23.1, 25.7], url: 'https://x.com/shapoco/status/1806965181580538294' },
+        { date: '2024-07-06', total: 892  , percent: [23.8, 26.3, 22.8, 27.1], url: 'https://x.com/shapoco/status/1809488058498384241' },
+        { date: '2024-07-13', total: 1080 , percent: [24.9, 26.3, 24.5, 24.3], url: 'https://x.com/shapoco/status/1811998229413650670' },
+        { date: '2024-07-20', total: 863  , percent: [31.3, 21.4, 24.7, 22.6], url: 'https://x.com/shapoco/status/1814551572028006650' },
+        { date: '2024-07-27', total: 547  , percent: [28.7, 20.3, 24.5, 26.5], url: 'https://x.com/shapoco/status/1817109855506669917' },
+        { date: '2024-08-03', total: 580  , percent: [28.8, 22.9, 24.8, 23.4], url: 'https://x.com/shapoco/status/1819670397111206299' },
+        { date: '2024-08-10', total: 675  , percent: [25.2, 25.3, 25.5, 24.0], url: 'https://x.com/shapoco/status/1822264284451418490' },
+        { date: '2024-08-17', total: 452  , percent: [24.6, 23.0, 23.7, 28.8], url: 'https://x.com/shapoco/status/1824657019590283316' },
+        { date: '2024-08-24', total: 364  , percent: [25.5, 26.6, 24.2, 23.6], url: 'https://x.com/shapoco/status/1827257833949426167' },
+        { date: '2024-08-31', total: 428  , percent: [28.5, 24.3, 24.3, 22.9], url: 'https://x.com/shapoco/status/1829769692715810854' },
+        { date: '2024-09-07', total: 577  , percent: [25.3, 24.3, 25.8, 24.6], url: 'https://x.com/shapoco/status/1832305063496446081' },
+        { date: '2024-09-14', total: 523  , percent: [27.2, 21.0, 26.4, 25.4], url: 'https://x.com/shapoco/status/1834886196318945531' },
+        { date: '2024-09-22', total: 647  , percent: [24.6, 23.2, 27.4, 24.9], url: 'https://x.com/shapoco/status/1837679302743413151' },
+        { date: '2024-09-28', total: 432  , percent: [28.9, 29.4, 18.3, 23.4], url: 'https://x.com/shapoco/status/1839919986133156036' },
+        { date: '2024-10-05', total: 356  , percent: [25.8, 21.6, 23.3, 29.2], url: 'https://x.com/shapoco/status/1842541660917604626' },
+        { date: '2024-10-12', total: 543  , percent: [30.6, 24.3, 20.6, 24.5], url: 'https://x.com/shapoco/status/1845097790642200929' },
+        { date: '2024-10-20', total: 612  , percent: [24.2, 24.7, 27.8, 23.4], url: 'https://x.com/shapoco/status/1847816710847680990' },
+        { date: '2024-10-26', total: 684  , percent: [26.8, 25.1, 25.6, 22.5], url: 'https://x.com/shapoco/status/1850157898841886900' },
+        { date: '2024-11-03', total: 571  , percent: [27.7, 22.9, 24.0, 25.4], url: 'https://x.com/shapoco/status/1853067110827925893' },
+        { date: '2024-11-09', total: 263  , percent: [25.5, 26.2, 22.8, 25.5], url: 'https://x.com/shapoco/status/1855252017498947686' },
+        { date: '2024-11-16', total: 417  , percent: [28.5, 24.5, 25.4, 21.6], url: 'https://x.com/shapoco/status/1857601223983247567' },
+        { date: '2024-11-23', total: 412  , percent: [20.6, 23.1, 27.4, 28.9], url: 'https://x.com/shapoco/status/1860291340686491768' },
+        { date: '2024-11-30', total: 332  , percent: [23.8, 25.6, 26.2, 24.4], url: 'https://x.com/shapoco/status/1862771716520648915' },
+        { date: '2024-12-07', total: 654  , percent: [25.4, 23.7, 26.1, 24.8], url: 'https://x.com/shapoco/status/1865389021570187607' },
+        { date: '2024-12-14', total: 342  , percent: [28.7, 23.4, 23.1, 24.9], url: 'https://x.com/shapoco/status/1867898256589799570' },
+        { date: '2024-12-21', total: 437  , percent: [25.6, 26.1, 22.0, 26.3], url: 'https://x.com/shapoco/status/1870437502634598769' },
+        { date: '2024-12-28', total: 552  , percent: [26.1, 23.9, 23.0, 27.0], url: 'https://x.com/shapoco/status/1872918922753917329' },
+        { date: '2025-01-04', total: 495  , percent: [21.0, 30.9, 25.7, 22.4], url: 'https://x.com/shapoco/status/1875475549533171968' },
+        { date: '2025-01-11', total: 442  , percent: [26.2, 22.6, 22.2, 29.0], url: 'https://x.com/shapoco/status/1878066463518675030' },
+        { date: '2025-01-18', total: 416  , percent: [26.9, 25.0, 24.0, 24.0], url: 'https://x.com/shapoco/status/1880611436558426324' },
+        { date: '2025-01-26', total: 282  , percent: [24.8, 28.7, 20.6, 25.9], url: 'https://x.com/shapoco/status/1883437439991332963' },
+        { date: '2025-02-01', total: 469  , percent: [26.9, 28.4, 20.3, 24.5], url: 'https://x.com/shapoco/status/1885548937488326831' },
+        { date: '2025-02-08', total: 0    , percent: null, url: null },
+      ];
+
+      function main() {
+        const canvas = document.getElementById('canvas');
+        const g = canvas.getContext('2d');
+        const W = canvas.width;
+        const H = canvas.height;
+
+        g.textAlign = 'center';
+        g.textBaseline = 'middle';
+
+        g.fillStyle = '#fff';
+        g.fillRect(0, 0, W, H);
+
+        const PADDING = Math.round(H * 0.02);
+
+        const SUB_TITLE_H = Math.round(H * 0.05);
+        const MAIN_TITLE_H = Math.round(H * 0.08);
+
+        let yOffset = PADDING;
+        g.font = `bold ${SUB_TITLE_H}px Meiryo`;
+        drawText(g, '一番票が多いトイレを選んだ人がうんこ漏らすゲーム', 0, yOffset, W, SUB_TITLE_H, TEXT_COLOR);
+        yOffset += SUB_TITLE_H + PADDING;
+
+        g.font = `bold ${MAIN_TITLE_H}px Meiryo`;
+        drawText(g, '成績情報', 0, yOffset, W, MAIN_TITLE_H, TEXT_COLOR);
+        yOffset += MAIN_TITLE_H + PADDING;
+
+        const CIRCLE_Y = yOffset;
+
+        let loseCount = [0, 0, 0, 0];
+        let totalCount = 0;
+
+        const TABLE_COLS = 20;
+        const TABLE_ROWS = Math.ceil(DB.length / TABLE_COLS);
+        const TABLE_W = Math.round(W * 0.65);
+        const TABLE_H = Math.round(H * 0.3);
+        const CELL_PADDING = H * 0.002;
+        const CELL_BODY_H = TABLE_H / TABLE_ROWS * 0.6;
+        const CELL_BODY_TEXT_H = Math.round(CELL_BODY_H * 0.8);
+        const CELL_TITLE_H = TABLE_H / TABLE_ROWS - CELL_BODY_H - CELL_PADDING;
+        const CELL_TITLE_TEXT_H = Math.round(CELL_TITLE_H * 0.8);
+        yOffset += CELL_PADDING + drawSectionTitle(g, '過去の敗者', PADDING, yOffset, TABLE_W);
+        for (var row = 0; row < TABLE_ROWS; row++) {
+          for (var col = 0; col < TABLE_COLS; col++) {
+            const i = row * TABLE_COLS + col;
+            if (i >= DB.length) break;
+            const x = PADDING + TABLE_W * col / TABLE_COLS + CELL_PADDING;
+            const y = yOffset + TABLE_H * row / TABLE_ROWS + CELL_PADDING;
+            const w = TABLE_W / TABLE_COLS - CELL_PADDING * 2;
+            const h = TABLE_H / TABLE_ROWS - CELL_PADDING * 2;
+
+            g.fillStyle = SILVER;
+            g.fillRect(x, y, w, CELL_TITLE_H);
+            g.font = `bold ${CELL_TITLE_TEXT_H}px Meiryo`;
+            drawText(g, i + 1, x, y, w, CELL_TITLE_H, TEXT_COLOR);
+
+            const data = DB[i];
+            let text = '?';
+            let color = '#444';
+            if (data.percent) {
+              const iLoser = data.percent.indexOf(Math.max(...data.percent));
+              color = COLORS[iLoser];
+              text = CHARS[iLoser];
+              loseCount[iLoser]++;
+              totalCount++;
+            }
+            g.fillStyle = color;
+            g.fillRect(x, y + CELL_TITLE_H, w, CELL_BODY_H);
+            g.font = `bold ${CELL_BODY_TEXT_H}px Meiryo`;
+            drawText(g, text, x, y + CELL_TITLE_H, w, CELL_BODY_H, 'white');
+          }
+        }
+        yOffset += TABLE_H + PADDING;
+
+        yOffset += CELL_PADDING + drawSectionTitle(g, '得票率の推移', PADDING, yOffset, TABLE_W);
+        const GRAPH_W = TABLE_W;
+        const GRAPH_H = H - yOffset - PADDING;
+        g.fillStyle = BG_COLOR;
+        g.fillRect(PADDING, yOffset, GRAPH_W, GRAPH_H);
+        const GRAPH_INNER_X = PADDING * 6;
+        const GRAPH_INNER_Y = yOffset + PADDING;
+        const GRAPH_INNER_W = GRAPH_W - GRAPH_INNER_X;
+        const GRAPH_INNER_H = GRAPH_H - PADDING * 2;
+        const GRAPH_MIN = 15;
+        const GRAPH_MAX = 35;
+        // グラフの枠を描画
+        for (var iy = GRAPH_MIN; iy <= GRAPH_MAX; iy += 5) {
+          const y = GRAPH_INNER_Y + GRAPH_INNER_H * (1 - (iy - GRAPH_MIN) / (GRAPH_MAX - GRAPH_MIN));
+          g.fillStyle = '#888';
+          g.fillRect(GRAPH_INNER_X, y - 1, GRAPH_INNER_W, 2);
+          g.textAlign = 'right';
+          g.fillStyle = TEXT_COLOR;
+          g.font = `bold ${Math.round(GRAPH_INNER_W * 0.025)}px Meiryo`;
+          g.fillText(`${iy}%`, GRAPH_INNER_X - PADDING, y);
+          g.textAlign = 'center';
+        }
+        for (var ix = 0; ix < totalCount; ix++) {
+          const x = GRAPH_INNER_X + GRAPH_INNER_W * ix / (totalCount - 1);
+          // 破線を描く
+          g.strokeStyle = '#888';
+          g.lineWidth = 1;
+          if (ix % 5 == 0) {
+            g.setLineDash([]);
+          }
+          else {
+            g.setLineDash([5, 5]);
+          }
+          g.beginPath();
+          g.moveTo(x, GRAPH_INNER_Y);
+          g.lineTo(x, GRAPH_INNER_Y + GRAPH_INNER_H);
+          g.stroke();
+          g.setLineDash([]);
+        }
+
+        // DB.percent の値を GRAPH_INNER_X, GRAPH_INNER_Y, GRAPH_INNER_W, GRAPH_INNER_H の範囲に折れ線グラフで描画
+        for (var i = 0; i < 4; i++) {
+          g.setLineDash([]);
+          // 折れ線の頂点を丸くする
+          g.lineCap = 'round';
+          g.lineJoin = 'round';
+          g.beginPath();
+          for (var j = 0; j < totalCount; j++) {
+            const x = GRAPH_INNER_X + GRAPH_INNER_W * j / (totalCount - 1);
+            const y = GRAPH_INNER_Y + GRAPH_INNER_H * (1 - (DB[j].percent[i] - GRAPH_MIN) / (GRAPH_MAX - GRAPH_MIN));
+            if (j == 0) {
+              g.moveTo(x, y);
+            }
+            else {
+              g.lineTo(x, y);
+            }
+          }
+          g.setLineDash([]);
+          g.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+          g.lineWidth = 10;
+          g.stroke();
+          g.strokeStyle = COLORS[i];
+          g.lineWidth = 5;
+          g.stroke();
+        }
+        
+        for (var i = 0; i < 4; i++) {
+          // 移動平均を描画
+          const MA = 5;
+          g.beginPath();
+          for (var j = 0; j < totalCount; j++) {
+            const x = GRAPH_INNER_X + GRAPH_INNER_W * j / (totalCount - 1);
+            let sum = 0;
+            for (var k = -MA + 1; k <= 0; k++) {
+              const index = j + k;
+              if (index < 0 || index >= totalCount) continue;
+              sum += DB[index].percent[i];
+            }
+            const score = sum / MA;
+            const y = GRAPH_INNER_Y + GRAPH_INNER_H * (1 - (score - GRAPH_MIN) / (GRAPH_MAX - GRAPH_MIN));
+            if (j < MA) {
+              // ignore
+            }
+            else if (j == MA) {
+              g.moveTo(x, y);
+            }
+            else {
+              g.lineTo(x, y);
+            }
+          }
+          g.setLineDash([]);
+          g.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+          g.lineWidth = 6;
+          g.stroke();
+          g.setLineDash([5, 5]);
+          g.strokeStyle = COLORS[i];
+          g.lineWidth = 2;
+          g.stroke();
+        }
+        for (var i = 0; i < 4; i++) {
+          const h = Math.round(GRAPH_INNER_W * 0.02);
+          const w = h * 4;
+          const x = GRAPH_INNER_X + GRAPH_INNER_W - w * (4 - i);
+          const y = GRAPH_INNER_Y + GRAPH_INNER_H - Math.round(h * 1.5);
+          g.fillStyle = COLORS[i];
+          g.fillRect(x, y, h, h);
+          g.fillStyle = TEXT_COLOR;
+          g.font = `bold ${h}px Meiryo`;
+          g.fillText(CHARS[i], x + h * 2, y + Math.round(h / 2));
+        }
+
+        yOffset = CIRCLE_Y;
+        const CIRCLE_X = TABLE_W + PADDING * 2;
+        const CIRCLE_W = W - CIRCLE_X - PADDING;
+        yOffset += CELL_PADDING + drawSectionTitle(g, '漏らした回数と割合', CIRCLE_X, yOffset, CIRCLE_W);
+        const CIRCLE_H = H - yOffset - PADDING;
+        g.setLineDash([]);
+        g.fillStyle = BG_COLOR;
+        g.fillRect(CIRCLE_X, yOffset, CIRCLE_W, CIRCLE_H);
+        // loseCount の値の割合を CICLE_X, CIRCLE_Y, CIRCLE_W, CIRCLE_H の範囲に円グラフで描画
+        let startAngle = -90 * Math.PI / 180;
+        for (var j = 0; j < loseCount.length; j++) {
+          const endAngle = startAngle + loseCount[j] / totalCount * Math.PI * 2;
+          const R = CIRCLE_W * 0.45;
+          g.fillStyle = COLORS[j];
+          g.strokeStyle = 'white';
+          g.lineWidth = 5;
+          g.beginPath();
+          g.moveTo(CIRCLE_X + CIRCLE_W / 2, yOffset + CIRCLE_H / 2);
+          g.arc(CIRCLE_X + CIRCLE_W / 2, yOffset + CIRCLE_H / 2, R, startAngle, endAngle);
+          g.fill();
+          g.stroke();
+
+          const halfAngle = (startAngle + endAngle) / 2;
+          const r = R * 4 / 5 - (endAngle - startAngle) * 30;
+          const x = CIRCLE_X + CIRCLE_W / 2 + Math.cos(halfAngle) * r;
+          const y = yOffset + CIRCLE_H / 2 + Math.sin(halfAngle) * r;
+          const text0 = `${CHARS[j]}:${loseCount[j]}`;
+          const text1 = `${Math.round(loseCount[j] / totalCount * 1000) / 10}%`;
+          const textH = Math.round(CIRCLE_W * 0.05);
+          g.font = `bold ${textH}px Meiryo`;
+          g.fillStyle = 'white';
+          g.fillText(text0, x, y - textH / 2);
+          g.fillText(text1, x, y + textH / 2);
+          startAngle = endAngle;
+        }
+      }
+
+      function drawSectionTitle(g, title, x, y, w) {
+        const h = Math.round(g.canvas.width * 0.02);
+        g.fillStyle = SILVER;
+        g.fillRect(x, y, w, h);
+        g.font = `bold ${Math.round(h * 0.8)}px Meiryo`;
+        drawText(g, title, x, y, w, h, TEXT_COLOR);
+        return h;
+      }
+
+      // 文字列描画
+      function drawText(g, text, x, y, w, h, color) {
+        g.fillStyle = color;
+        g.fillText(text, x + Math.round(w / 2), y + Math.round(h / 2));
+      }
+
+      window.onload = main;
+    </script>
+  </body>
+
+</html>
