@@ -33,8 +33,8 @@
       }
     </script>
 
-    <link rel="stylesheet" href="./style.css?20250209104900">
-    <script src="./toilet_game.js?20250209104900"></script>
+    <link rel="stylesheet" href="./style.css?20250209145100">
+    <script src="./toilet_game.js?20250209145100"></script>
 
     <title>4択トイレゲーム</title>
   </head>
@@ -86,7 +86,7 @@ D 🚽🚪 😨💨💨💨
           let dateStr = '';
 
           for (let i = 0; i < NUM_SELECTIONS; i++) {
-            const m = lines[i * 2 + 1].match(/^(\d+\.\d+)%$/);
+            const m = lines[i * 2 + 1].match(/^(\d+(\.\d+)?)%$/);
             percent.push(parseFloat(m[1]));
           }
 
