@@ -33,14 +33,39 @@
       }
     </script>
 
-    <link rel="stylesheet" href="./style.css?20250209145100">
-    <script src="./toilet_game.js?20250216130800"></script>
+    <link rel="stylesheet" href="./style.css?20250222141600">
+    <script src="./toilet_game.js?20250222141600"></script>
 
     <title>4択トイレゲーム</title>
   </head>
 
   <body>
     <h1>作業用ページ</h1>
+
+    <h2>出題</h2>
+<pre id="question">
+
+</pre>
+<script>
+  const n = DB.filter(x => (!!x.total && !!x.percent)).length + 1;
+  document.querySelector('#question').textContent =
+    `一番票が多いトイレを選んだ人がうんこ漏らすゲーム 第${n}回\n` +
+    `(過去成績はスレッド参照) #4択トイレゲーム`;
+</script>
+<pre>
+A 🚽🚪 😨💨💨💨
+</pre>
+<pre>
+B 🚽🚪 😨💨💨💨
+</pre>
+<pre>
+C 🚽🚪 😨💨💨💨
+</pre>
+<pre>
+D 🚽🚪 😨💨💨💨
+</pre>
+
+    <h2>集計</h2>
     
     <textarea id="pastedText" style="width: 100%; height: 150px;">A 🚽🚪 😨💨💨💨
 11.1%

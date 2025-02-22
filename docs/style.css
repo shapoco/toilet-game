@@ -5,3 +5,11 @@ canvas {
   width: 100%;
   height: auto;
 }
+
+pre {
+  background-color: #efefef;
+  border: solid 1px #ccc;
+  width: 100%;
+  padding: 10px;
+  overflow: auto;
+}
