@@ -68,6 +68,7 @@ const DB = [
   { date: '2025-02-08', total: 427  , percent: [26.5, 23.0, 24.4, 26.2], url: 'https://x.com/shapoco/status/1888100432293282163' },
   { date: '2025-02-15', total: 344  , percent: [25.6, 20.3, 30.8, 23.3], url: 'https://x.com/shapoco/status/1890584503472505101' },
   { date: '2025-02-22', total: 341  , percent: [28.4, 21.7, 24.0, 25.8], url: 'https://x.com/shapoco/status/1893169295603163576' },
-  { date: '2025-03-01', total: 0, percent: null, url: null },
+  { date: '2025-03-01', total: 261  , percent: [26.1, 24.5, 25.3, 24.1], url: 'https://x.com/shapoco/status/1895696487063175641' },
+  { date: '2025-03-08', total: 0, percent: null, url: null },
   //{ date: '2025-xx-xx', total: 0, percent: null, url: null },
 ];
