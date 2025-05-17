@@ -79,5 +79,6 @@ const DB = [
   { date: '2025-04-26', total: 427, percent: [27.6, 23.4, 24.4, 24.6], url: 'https://x.com/shapoco/status/1915950318497726670' },
   { date: '2025-05-03', total: 555, percent: [22.5, 22.2, 26.5, 28.8], url: 'https://x.com/shapoco/status/1918538250576380238' },
   { date: '2025-05-10', total: 551, percent: [27.9, 23, 24, 25], url: 'https://x.com/shapoco/status/1921118652474052842' },
+  { date: '2025-05-17', total: 0, percent: null, url: null },
   //{ date: '2025-xx-xx', total: 0, percent: null, url: null },
 ];
