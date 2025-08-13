@@ -1,297 +1,298 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 
-    <meta name="keywords" content="4択トイレゲーム">
-    <meta name="description" content="一番票が多いトイレを選んだ人がうんこ漏らすゲーム">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@shapoco" />
-    <meta property="og:url" content="https://shapoco.github.io/toilet-game/" />
-    <meta property="og:title" content="4択トイレゲーム" />
-    <meta property="og:description" content="一番票が多いトイレを選んだ人がうんこ漏らすゲーム" />
-    <meta property="og:image" content="https://shapoco.github.io/toilet-game/cover.png?20250809223200" />
-    
-    <link rel="icon" href="https://shapoco.github.io/favicon192.png" sizes="192x192">
-    <link rel="apple-touch-icon" href="https://shapoco.github.io/apple-touch-icon180.png" sizes="180x180">
-    <link rel="shortcut icon" href="https://shapoco.github.io/favicon48.ico">
+  <meta name="keywords" content="4択トイレゲーム">
+  <meta name="description" content="一番票が多いトイレを選んだ人がうんこ漏らすゲーム">
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171109827-1"></script>
-    <script>
-      var remoteHost = window.location.hostname;
-      if (remoteHost == "localhost") {
-        console.log(`Google Analytics disabled on: '${remoteHost}'`);
-      }
-      else {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-171109827-1');
-      }
-    </script>
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@shapoco" />
+  <meta property="og:url" content="https://shapoco.github.io/toilet-game/" />
+  <meta property="og:title" content="4択トイレゲーム" />
+  <meta property="og:description" content="一番票が多いトイレを選んだ人がうんこ漏らすゲーム" />
+  <meta property="og:image" content="https://shapoco.github.io/toilet-game/cover.png?20250809223200" />
 
-    <style>
-    </style>
-    
-    <link rel="stylesheet" href="./style.css?20250809223200">
-    <script src="./toilet_game.js?20250809223200"></script>
+  <link rel="icon" href="https://shapoco.github.io/favicon192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="https://shapoco.github.io/apple-touch-icon180.png" sizes="180x180">
+  <link rel="shortcut icon" href="https://shapoco.github.io/favicon48.ico">
 
-    <title>4択トイレゲーム</title>
-  </head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJ53WNQ22G"></script>
+  <script>
+    var remoteHost = window.location.hostname;
+    if (remoteHost == "localhost") {
+      console.log(`Google Analytics disabled on: '${remoteHost}'`);
+    }
+    else {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-KJ53WNQ22G');
+    }
+  </script>
 
-  <body>
-    <h1 style="display: none;">4択トイレゲーム</h1>
-    
-    <canvas id="canvas" width="1920" height="1080"></canvas>
+  <style>
+  </style>
 
-    <script>
-      const BG_COLOR = '#f8f8f8';
-      const SILVER = '#ddd';
-      const COLORS = ['#d54', '#ea0', '#4a2', '#0F9ED5'];
-      const TEXT_COLOR = '#222';
-      const CHARS = ['A', 'B', 'C', 'D'];
+  <link rel="stylesheet" href="./style.css?20250809223200">
+  <script src="./toilet_game.js?20250809223200"></script>
 
-      function main() {
-        const canvas = document.getElementById('canvas');
-        const g = canvas.getContext('2d');
-        const W = canvas.width;
-        const H = canvas.height;
+  <title>4択トイレゲーム</title>
+</head>
 
-        g.textAlign = 'center';
-        g.textBaseline = 'middle';
+<body>
+  <h1 style="display: none;">4択トイレゲーム</h1>
 
-        g.fillStyle = '#fff';
-        g.fillRect(0, 0, W, H);
+  <canvas id="canvas" width="1920" height="1080"></canvas>
 
-        const PADDING = Math.round(H * 0.02);
+  <script>
+    const BG_COLOR = '#f8f8f8';
+    const SILVER = '#ddd';
+    const COLORS = ['#d54', '#ea0', '#4a2', '#0F9ED5'];
+    const TEXT_COLOR = '#222';
+    const CHARS = ['A', 'B', 'C', 'D'];
 
-        const SUB_TITLE_H = Math.round(H * 0.05);
-        const MAIN_TITLE_H = Math.round(H * 0.08);
+    function main() {
+      const canvas = document.getElementById('canvas');
+      const g = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
 
-        let yOffset = PADDING;
-        g.font = `bold ${SUB_TITLE_H}px Meiryo`;
-        drawText(g, '一番票が多いトイレを選んだ人がうんこ漏らすゲーム', 0, yOffset, W, SUB_TITLE_H, TEXT_COLOR);
-        yOffset += SUB_TITLE_H + PADDING;
+      g.textAlign = 'center';
+      g.textBaseline = 'middle';
 
-        g.font = `bold ${MAIN_TITLE_H}px Meiryo`;
-        drawText(g, '成績情報', 0, yOffset, W, MAIN_TITLE_H, TEXT_COLOR);
-        yOffset += MAIN_TITLE_H + PADDING;
+      g.fillStyle = '#fff';
+      g.fillRect(0, 0, W, H);
 
-        const CIRCLE_Y = yOffset;
+      const PADDING = Math.round(H * 0.02);
 
-        let loseCount = [0, 0, 0, 0];
-        let totalCount = 0;
+      const SUB_TITLE_H = Math.round(H * 0.05);
+      const MAIN_TITLE_H = Math.round(H * 0.08);
 
-        const TABLE_COLS = 20;
-        const TABLE_ROWS = Math.ceil(DB.length / TABLE_COLS);
-        const TABLE_W = Math.round(W * 0.65);
-        const TABLE_H = Math.round(H * 0.3);
-        const CELL_PADDING = H * 0.002;
-        const CELL_BODY_H = TABLE_H / TABLE_ROWS * 0.6;
-        const CELL_BODY_TEXT_H = Math.round(CELL_BODY_H * 0.8);
-        const CELL_TITLE_H = TABLE_H / TABLE_ROWS - CELL_BODY_H - CELL_PADDING;
-        const CELL_TITLE_TEXT_H = Math.round(CELL_TITLE_H * 0.8);
-        yOffset += CELL_PADDING + drawSectionTitle(g, '過去の敗者', PADDING, yOffset, TABLE_W);
-        for (var row = 0; row < TABLE_ROWS; row++) {
-          for (var col = 0; col < TABLE_COLS; col++) {
-            const i = row * TABLE_COLS + col;
-            if (i >= DB.length) break;
-            const x = PADDING + TABLE_W * col / TABLE_COLS + CELL_PADDING;
-            const y = yOffset + TABLE_H * row / TABLE_ROWS + CELL_PADDING;
-            const w = TABLE_W / TABLE_COLS - CELL_PADDING * 2;
-            const h = TABLE_H / TABLE_ROWS - CELL_PADDING * 2;
+      let yOffset = PADDING;
+      g.font = `bold ${SUB_TITLE_H}px Meiryo`;
+      drawText(g, '一番票が多いトイレを選んだ人がうんこ漏らすゲーム', 0, yOffset, W, SUB_TITLE_H, TEXT_COLOR);
+      yOffset += SUB_TITLE_H + PADDING;
 
-            g.fillStyle = SILVER;
-            g.fillRect(x, y, w, CELL_TITLE_H);
-            g.font = `bold ${CELL_TITLE_TEXT_H}px Meiryo`;
-            drawText(g, i + 1, x, y, w, CELL_TITLE_H, TEXT_COLOR);
+      g.font = `bold ${MAIN_TITLE_H}px Meiryo`;
+      drawText(g, '成績情報', 0, yOffset, W, MAIN_TITLE_H, TEXT_COLOR);
+      yOffset += MAIN_TITLE_H + PADDING;
 
-            const data = DB[i];
-            let text = '?';
-            let color = '#444';
-            if (data.percent) {
-              const iLoser = data.percent.indexOf(Math.max(...data.percent));
-              color = COLORS[iLoser];
-              text = CHARS[iLoser];
-              loseCount[iLoser]++;
-              totalCount++;
-            }
-            g.fillStyle = color;
-            g.fillRect(x, y + CELL_TITLE_H, w, CELL_BODY_H);
-            g.font = `bold ${CELL_BODY_TEXT_H}px Meiryo`;
-            drawText(g, text, x, y + CELL_TITLE_H, w, CELL_BODY_H, 'white');
+      const CIRCLE_Y = yOffset;
+
+      let loseCount = [0, 0, 0, 0];
+      let totalCount = 0;
+
+      const TABLE_COLS = 20;
+      const TABLE_ROWS = Math.ceil(DB.length / TABLE_COLS);
+      const TABLE_W = Math.round(W * 0.65);
+      const TABLE_H = Math.round(H * 0.3);
+      const CELL_PADDING = H * 0.002;
+      const CELL_BODY_H = TABLE_H / TABLE_ROWS * 0.6;
+      const CELL_BODY_TEXT_H = Math.round(CELL_BODY_H * 0.8);
+      const CELL_TITLE_H = TABLE_H / TABLE_ROWS - CELL_BODY_H - CELL_PADDING;
+      const CELL_TITLE_TEXT_H = Math.round(CELL_TITLE_H * 0.8);
+      yOffset += CELL_PADDING + drawSectionTitle(g, '過去の敗者', PADDING, yOffset, TABLE_W);
+      for (var row = 0; row < TABLE_ROWS; row++) {
+        for (var col = 0; col < TABLE_COLS; col++) {
+          const i = row * TABLE_COLS + col;
+          if (i >= DB.length) break;
+          const x = PADDING + TABLE_W * col / TABLE_COLS + CELL_PADDING;
+          const y = yOffset + TABLE_H * row / TABLE_ROWS + CELL_PADDING;
+          const w = TABLE_W / TABLE_COLS - CELL_PADDING * 2;
+          const h = TABLE_H / TABLE_ROWS - CELL_PADDING * 2;
+
+          g.fillStyle = SILVER;
+          g.fillRect(x, y, w, CELL_TITLE_H);
+          g.font = `bold ${CELL_TITLE_TEXT_H}px Meiryo`;
+          drawText(g, i + 1, x, y, w, CELL_TITLE_H, TEXT_COLOR);
+
+          const data = DB[i];
+          let text = '?';
+          let color = '#444';
+          if (data.percent) {
+            const iLoser = data.percent.indexOf(Math.max(...data.percent));
+            color = COLORS[iLoser];
+            text = CHARS[iLoser];
+            loseCount[iLoser]++;
+            totalCount++;
           }
+          g.fillStyle = color;
+          g.fillRect(x, y + CELL_TITLE_H, w, CELL_BODY_H);
+          g.font = `bold ${CELL_BODY_TEXT_H}px Meiryo`;
+          drawText(g, text, x, y + CELL_TITLE_H, w, CELL_BODY_H, 'white');
         }
-        yOffset += TABLE_H + PADDING;
+      }
+      yOffset += TABLE_H + PADDING;
 
-        yOffset += CELL_PADDING + drawSectionTitle(g, '得票率の推移', PADDING, yOffset, TABLE_W);
-        const GRAPH_W = TABLE_W;
-        const GRAPH_H = H - yOffset - PADDING;
-        g.fillStyle = BG_COLOR;
-        g.fillRect(PADDING, yOffset, GRAPH_W, GRAPH_H);
-        const GRAPH_INNER_X = PADDING * 6;
-        const GRAPH_INNER_Y = yOffset + PADDING;
-        const GRAPH_INNER_W = GRAPH_W - GRAPH_INNER_X;
-        const GRAPH_INNER_H = GRAPH_H - PADDING * 2;
-        const GRAPH_MIN = 15;
-        const GRAPH_MAX = 35;
-        // グラフの枠を描画
-        for (var iy = GRAPH_MIN; iy <= GRAPH_MAX; iy += 5) {
-          const y = GRAPH_INNER_Y + GRAPH_INNER_H * (1 - (iy - GRAPH_MIN) / (GRAPH_MAX - GRAPH_MIN));
-          g.fillStyle = '#888';
-          g.fillRect(GRAPH_INNER_X, y - 1, GRAPH_INNER_W, 2);
-          g.textAlign = 'right';
-          g.fillStyle = TEXT_COLOR;
-          g.font = `bold ${Math.round(GRAPH_INNER_W * 0.025)}px Meiryo`;
-          g.fillText(`${iy}%`, GRAPH_INNER_X - PADDING, y);
-          g.textAlign = 'center';
+      yOffset += CELL_PADDING + drawSectionTitle(g, '得票率の推移', PADDING, yOffset, TABLE_W);
+      const GRAPH_W = TABLE_W;
+      const GRAPH_H = H - yOffset - PADDING;
+      g.fillStyle = BG_COLOR;
+      g.fillRect(PADDING, yOffset, GRAPH_W, GRAPH_H);
+      const GRAPH_INNER_X = PADDING * 6;
+      const GRAPH_INNER_Y = yOffset + PADDING;
+      const GRAPH_INNER_W = GRAPH_W - GRAPH_INNER_X;
+      const GRAPH_INNER_H = GRAPH_H - PADDING * 2;
+      const GRAPH_MIN = 15;
+      const GRAPH_MAX = 35;
+      // グラフの枠を描画
+      for (var iy = GRAPH_MIN; iy <= GRAPH_MAX; iy += 5) {
+        const y = GRAPH_INNER_Y + GRAPH_INNER_H * (1 - (iy - GRAPH_MIN) / (GRAPH_MAX - GRAPH_MIN));
+        g.fillStyle = '#888';
+        g.fillRect(GRAPH_INNER_X, y - 1, GRAPH_INNER_W, 2);
+        g.textAlign = 'right';
+        g.fillStyle = TEXT_COLOR;
+        g.font = `bold ${Math.round(GRAPH_INNER_W * 0.025)}px Meiryo`;
+        g.fillText(`${iy}%`, GRAPH_INNER_X - PADDING, y);
+        g.textAlign = 'center';
+      }
+      for (var ix = 0; ix < totalCount; ix++) {
+        const x = GRAPH_INNER_X + GRAPH_INNER_W * ix / (totalCount - 1);
+        // 破線を描く
+        g.strokeStyle = '#888';
+        g.lineWidth = 1;
+        if (ix % 5 == 0) {
+          g.setLineDash([]);
         }
-        for (var ix = 0; ix < totalCount; ix++) {
-          const x = GRAPH_INNER_X + GRAPH_INNER_W * ix / (totalCount - 1);
-          // 破線を描く
-          g.strokeStyle = '#888';
-          g.lineWidth = 1;
-          if (ix % 5 == 0) {
-            g.setLineDash([]);
+        else {
+          g.setLineDash([5, 5]);
+        }
+        g.beginPath();
+        g.moveTo(x, GRAPH_INNER_Y);
+        g.lineTo(x, GRAPH_INNER_Y + GRAPH_INNER_H);
+        g.stroke();
+        g.setLineDash([]);
+      }
+
+      // DB.percent の値を GRAPH_INNER_X, GRAPH_INNER_Y, GRAPH_INNER_W, GRAPH_INNER_H の範囲に折れ線グラフで描画
+      for (var i = 0; i < 4; i++) {
+        g.setLineDash([]);
+        // 折れ線の頂点を丸くする
+        g.lineCap = 'round';
+        g.lineJoin = 'round';
+        g.beginPath();
+        for (var j = 0; j < totalCount; j++) {
+          const x = GRAPH_INNER_X + GRAPH_INNER_W * j / (totalCount - 1);
+          const y = GRAPH_INNER_Y + GRAPH_INNER_H * (1 - (DB[j].percent[i] - GRAPH_MIN) / (GRAPH_MAX - GRAPH_MIN));
+          if (j == 0) {
+            g.moveTo(x, y);
           }
           else {
-            g.setLineDash([5, 5]);
+            g.lineTo(x, y);
           }
-          g.beginPath();
-          g.moveTo(x, GRAPH_INNER_Y);
-          g.lineTo(x, GRAPH_INNER_Y + GRAPH_INNER_H);
-          g.stroke();
-          g.setLineDash([]);
         }
-
-        // DB.percent の値を GRAPH_INNER_X, GRAPH_INNER_Y, GRAPH_INNER_W, GRAPH_INNER_H の範囲に折れ線グラフで描画
-        for (var i = 0; i < 4; i++) {
-          g.setLineDash([]);
-          // 折れ線の頂点を丸くする
-          g.lineCap = 'round';
-          g.lineJoin = 'round';
-          g.beginPath();
-          for (var j = 0; j < totalCount; j++) {
-            const x = GRAPH_INNER_X + GRAPH_INNER_W * j / (totalCount - 1);
-            const y = GRAPH_INNER_Y + GRAPH_INNER_H * (1 - (DB[j].percent[i] - GRAPH_MIN) / (GRAPH_MAX - GRAPH_MIN));
-            if (j == 0) {
-              g.moveTo(x, y);
-            }
-            else {
-              g.lineTo(x, y);
-            }
-          }
-          g.setLineDash([]);
-          g.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-          g.lineWidth = 10;
-          g.stroke();
-          g.strokeStyle = COLORS[i];
-          g.lineWidth = 5;
-          g.stroke();
-        }
-        
-        for (var i = 0; i < 4; i++) {
-          // 移動平均を描画
-          const MA = 5;
-          g.beginPath();
-          for (var j = 0; j < totalCount; j++) {
-            const x = GRAPH_INNER_X + GRAPH_INNER_W * j / (totalCount - 1);
-            let sum = 0;
-            for (var k = -MA + 1; k <= 0; k++) {
-              const index = j + k;
-              if (index < 0 || index >= totalCount) continue;
-              sum += DB[index].percent[i];
-            }
-            const score = sum / MA;
-            const y = GRAPH_INNER_Y + GRAPH_INNER_H * (1 - (score - GRAPH_MIN) / (GRAPH_MAX - GRAPH_MIN));
-            if (j < MA) {
-              // ignore
-            }
-            else if (j == MA) {
-              g.moveTo(x, y);
-            }
-            else {
-              g.lineTo(x, y);
-            }
-          }
-          g.setLineDash([]);
-          g.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-          g.lineWidth = 6;
-          g.stroke();
-          g.setLineDash([5, 5]);
-          g.strokeStyle = COLORS[i];
-          g.lineWidth = 2;
-          g.stroke();
-        }
-        for (var i = 0; i < 4; i++) {
-          const h = Math.round(GRAPH_INNER_W * 0.02);
-          const w = h * 4;
-          const x = GRAPH_INNER_X + GRAPH_INNER_W - w * (4 - i);
-          const y = GRAPH_INNER_Y + GRAPH_INNER_H - Math.round(h * 1.5);
-          g.fillStyle = COLORS[i];
-          g.fillRect(x, y, h, h);
-          g.fillStyle = TEXT_COLOR;
-          g.font = `bold ${h}px Meiryo`;
-          g.fillText(CHARS[i], x + h * 2, y + Math.round(h / 2));
-        }
-
-        yOffset = CIRCLE_Y;
-        const CIRCLE_X = TABLE_W + PADDING * 2;
-        const CIRCLE_W = W - CIRCLE_X - PADDING;
-        yOffset += CELL_PADDING + drawSectionTitle(g, '漏らした回数と割合', CIRCLE_X, yOffset, CIRCLE_W);
-        const CIRCLE_H = H - yOffset - PADDING;
         g.setLineDash([]);
-        g.fillStyle = BG_COLOR;
-        g.fillRect(CIRCLE_X, yOffset, CIRCLE_W, CIRCLE_H);
-        // loseCount の値の割合を CICLE_X, CIRCLE_Y, CIRCLE_W, CIRCLE_H の範囲に円グラフで描画
-        let startAngle = -90 * Math.PI / 180;
-        for (var j = 0; j < loseCount.length; j++) {
-          const endAngle = startAngle + loseCount[j] / totalCount * Math.PI * 2;
-          const R = CIRCLE_W * 0.45;
-          g.fillStyle = COLORS[j];
-          g.strokeStyle = 'white';
-          g.lineWidth = 5;
-          g.beginPath();
-          g.moveTo(CIRCLE_X + CIRCLE_W / 2, yOffset + CIRCLE_H / 2);
-          g.arc(CIRCLE_X + CIRCLE_W / 2, yOffset + CIRCLE_H / 2, R, startAngle, endAngle);
-          g.fill();
-          g.stroke();
+        g.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        g.lineWidth = 10;
+        g.stroke();
+        g.strokeStyle = COLORS[i];
+        g.lineWidth = 5;
+        g.stroke();
+      }
 
-          const halfAngle = (startAngle + endAngle) / 2;
-          const r = R * 4 / 5 - (endAngle - startAngle) * 30;
-          const x = CIRCLE_X + CIRCLE_W / 2 + Math.cos(halfAngle) * r;
-          const y = yOffset + CIRCLE_H / 2 + Math.sin(halfAngle) * r;
-          const text0 = `${CHARS[j]}:${loseCount[j]}`;
-          const text1 = `${Math.round(loseCount[j] / totalCount * 1000) / 10}%`;
-          const textH = Math.round(CIRCLE_W * 0.05);
-          g.font = `bold ${textH}px Meiryo`;
-          g.fillStyle = 'white';
-          g.fillText(text0, x, y - textH / 2);
-          g.fillText(text1, x, y + textH / 2);
-          startAngle = endAngle;
+      for (var i = 0; i < 4; i++) {
+        // 移動平均を描画
+        const MA = 5;
+        g.beginPath();
+        for (var j = 0; j < totalCount; j++) {
+          const x = GRAPH_INNER_X + GRAPH_INNER_W * j / (totalCount - 1);
+          let sum = 0;
+          for (var k = -MA + 1; k <= 0; k++) {
+            const index = j + k;
+            if (index < 0 || index >= totalCount) continue;
+            sum += DB[index].percent[i];
+          }
+          const score = sum / MA;
+          const y = GRAPH_INNER_Y + GRAPH_INNER_H * (1 - (score - GRAPH_MIN) / (GRAPH_MAX - GRAPH_MIN));
+          if (j < MA) {
+            // ignore
+          }
+          else if (j == MA) {
+            g.moveTo(x, y);
+          }
+          else {
+            g.lineTo(x, y);
+          }
         }
+        g.setLineDash([]);
+        g.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        g.lineWidth = 6;
+        g.stroke();
+        g.setLineDash([5, 5]);
+        g.strokeStyle = COLORS[i];
+        g.lineWidth = 2;
+        g.stroke();
+      }
+      for (var i = 0; i < 4; i++) {
+        const h = Math.round(GRAPH_INNER_W * 0.02);
+        const w = h * 4;
+        const x = GRAPH_INNER_X + GRAPH_INNER_W - w * (4 - i);
+        const y = GRAPH_INNER_Y + GRAPH_INNER_H - Math.round(h * 1.5);
+        g.fillStyle = COLORS[i];
+        g.fillRect(x, y, h, h);
+        g.fillStyle = TEXT_COLOR;
+        g.font = `bold ${h}px Meiryo`;
+        g.fillText(CHARS[i], x + h * 2, y + Math.round(h / 2));
       }
 
-      function drawSectionTitle(g, title, x, y, w) {
-        const h = Math.round(g.canvas.width * 0.02);
-        g.fillStyle = SILVER;
-        g.fillRect(x, y, w, h);
-        g.font = `bold ${Math.round(h * 0.8)}px Meiryo`;
-        drawText(g, title, x, y, w, h, TEXT_COLOR);
-        return h;
-      }
+      yOffset = CIRCLE_Y;
+      const CIRCLE_X = TABLE_W + PADDING * 2;
+      const CIRCLE_W = W - CIRCLE_X - PADDING;
+      yOffset += CELL_PADDING + drawSectionTitle(g, '漏らした回数と割合', CIRCLE_X, yOffset, CIRCLE_W);
+      const CIRCLE_H = H - yOffset - PADDING;
+      g.setLineDash([]);
+      g.fillStyle = BG_COLOR;
+      g.fillRect(CIRCLE_X, yOffset, CIRCLE_W, CIRCLE_H);
+      // loseCount の値の割合を CICLE_X, CIRCLE_Y, CIRCLE_W, CIRCLE_H の範囲に円グラフで描画
+      let startAngle = -90 * Math.PI / 180;
+      for (var j = 0; j < loseCount.length; j++) {
+        const endAngle = startAngle + loseCount[j] / totalCount * Math.PI * 2;
+        const R = CIRCLE_W * 0.45;
+        g.fillStyle = COLORS[j];
+        g.strokeStyle = 'white';
+        g.lineWidth = 5;
+        g.beginPath();
+        g.moveTo(CIRCLE_X + CIRCLE_W / 2, yOffset + CIRCLE_H / 2);
+        g.arc(CIRCLE_X + CIRCLE_W / 2, yOffset + CIRCLE_H / 2, R, startAngle, endAngle);
+        g.fill();
+        g.stroke();
 
-      // 文字列描画
-      function drawText(g, text, x, y, w, h, color) {
-        g.fillStyle = color;
-        g.fillText(text, x + Math.round(w / 2), y + Math.round(h / 2));
+        const halfAngle = (startAngle + endAngle) / 2;
+        const r = R * 4 / 5 - (endAngle - startAngle) * 30;
+        const x = CIRCLE_X + CIRCLE_W / 2 + Math.cos(halfAngle) * r;
+        const y = yOffset + CIRCLE_H / 2 + Math.sin(halfAngle) * r;
+        const text0 = `${CHARS[j]}:${loseCount[j]}`;
+        const text1 = `${Math.round(loseCount[j] / totalCount * 1000) / 10}%`;
+        const textH = Math.round(CIRCLE_W * 0.05);
+        g.font = `bold ${textH}px Meiryo`;
+        g.fillStyle = 'white';
+        g.fillText(text0, x, y - textH / 2);
+        g.fillText(text1, x, y + textH / 2);
+        startAngle = endAngle;
       }
+    }
 
-      window.onload = main;
-    </script>
-  </body>
+    function drawSectionTitle(g, title, x, y, w) {
+      const h = Math.round(g.canvas.width * 0.02);
+      g.fillStyle = SILVER;
+      g.fillRect(x, y, w, h);
+      g.font = `bold ${Math.round(h * 0.8)}px Meiryo`;
+      drawText(g, title, x, y, w, h, TEXT_COLOR);
+      return h;
+    }
+
+    // 文字列描画
+    function drawText(g, text, x, y, w, h, color) {
+      g.fillStyle = color;
+      g.fillText(text, x + Math.round(w / 2), y + Math.round(h / 2));
+    }
+
+    window.onload = main;
+  </script>
+</body>
 
 </html>

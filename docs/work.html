@@ -1,77 +1,78 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 
-    <meta name="keywords" content="4択トイレゲーム">
-    <meta name="description" content="一番票が多いトイレを選んだ人がうんこ漏らすゲーム">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@shapoco" />
-    <meta property="og:url" content="https://shapoco.github.io/toilet-game/" />
-    <meta property="og:title" content="4択トイレゲーム" />
-    <meta property="og:description" content="一番票が多いトイレを選んだ人がうんこ漏らすゲーム" />
-    <meta property="og:image" content="https://shapoco.github.io/toilet-game/cover.png?20250809223200" />
-    
-    <link rel="icon" href="https://shapoco.github.io/favicon192.png" sizes="192x192">
-    <link rel="apple-touch-icon" href="https://shapoco.github.io/apple-touch-icon180.png" sizes="180x180">
-    <link rel="shortcut icon" href="https://shapoco.github.io/favicon48.ico">
+  <meta name="keywords" content="4択トイレゲーム">
+  <meta name="description" content="一番票が多いトイレを選んだ人がうんこ漏らすゲーム">
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171109827-1"></script>
-    <script>
-      var remoteHost = window.location.hostname;
-      if (remoteHost == "localhost") {
-        console.log(`Google Analytics disabled on: '${remoteHost}'`);
-      }
-      else {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-171109827-1');
-      }
-    </script>
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@shapoco" />
+  <meta property="og:url" content="https://shapoco.github.io/toilet-game/" />
+  <meta property="og:title" content="4択トイレゲーム" />
+  <meta property="og:description" content="一番票が多いトイレを選んだ人がうんこ漏らすゲーム" />
+  <meta property="og:image" content="https://shapoco.github.io/toilet-game/cover.png?20250809223200" />
 
-    <link rel="stylesheet" href="./style.css?20250809223200">
-    <script src="./toilet_game.js?20250809223200"></script>
+  <link rel="icon" href="https://shapoco.github.io/favicon192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="https://shapoco.github.io/apple-touch-icon180.png" sizes="180x180">
+  <link rel="shortcut icon" href="https://shapoco.github.io/favicon48.ico">
 
-    <title>4択トイレゲーム</title>
-  </head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KJ53WNQ22G"></script>
+  <script>
+    var remoteHost = window.location.hostname;
+    if (remoteHost == "localhost") {
+      console.log(`Google Analytics disabled on: '${remoteHost}'`);
+    }
+    else {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-KJ53WNQ22G');
+    }
+  </script>
 
-  <body>
-    <h1>作業用ページ</h1>
+  <link rel="stylesheet" href="./style.css?20250809223200">
+  <script src="./toilet_game.js?20250809223200"></script>
 
-    <h2>出題</h2>
-<pre id="question">
+  <title>4択トイレゲーム</title>
+</head>
+
+<body>
+  <h1>作業用ページ</h1>
+
+  <h2>出題</h2>
+  <pre id="question">
 
 </pre>
-<script>
-  const n = DB.filter(x => (!!x.total && !!x.percent)).length + 1;
-  document.querySelector('#question').textContent =
-    `一番票が多いトイレを選んだ人がうんこ漏らすゲーム 第${n}回\n` +
-    `(過去成績はスレッド参照) #4択トイレゲーム`;
-</script>
-<pre>
+  <script>
+    const n = DB.filter(x => (!!x.total && !!x.percent)).length + 1;
+    document.querySelector('#question').textContent =
+      `一番票が多いトイレを選んだ人がうんこ漏らすゲーム 第${n}回\n` +
+      `(過去成績はスレッド参照) #4択トイレゲーム`;
+  </script>
+  <pre>
 A 🚽🚪 😨💨💨💨
 </pre>
-<pre>
+  <pre>
 B 🚽🚪 😨💨💨💨
 </pre>
-<pre>
+  <pre>
 C 🚽🚪 😨💨💨💨
 </pre>
-<pre>
+  <pre>
 D 🚽🚪 😨💨💨💨
 </pre>
-<pre>
+  <pre>
 過去成績: https://shapoco.github.io/toilet-game/
 </pre>
 
-    <a href="https://cards-dev.x.com/validator" target="_blank">Card Validator | Twitter Developers</a>
-    <h2>集計</h2>
-    
-    <textarea id="pastedText" style="width: 100%; height: 150px;">A 🚽🚪 😨💨💨💨
+  <a href="https://cards-dev.x.com/validator" target="_blank">Card Validator | Twitter Developers</a>
+  <h2>集計</h2>
+
+  <textarea id="pastedText" style="width: 100%; height: 150px;">A 🚽🚪 😨💨💨💨
 11.1%
 B 🚽🚪 😨💨💨💨
 22.2%
@@ -87,67 +88,67 @@ D 🚽🚪 😨💨💨💨
 1,234
   件の表示</textarea>
 
-    <pre id="jsonCode"></pre>
+  <pre id="jsonCode"></pre>
 
-    <p>
-      選択範囲:
-    </p>
-    <p>
-      <img src="./images/selection-area.png">
-    </p>
+  <p>
+    選択範囲:
+  </p>
+  <p>
+    <img src="./images/selection-area.png">
+  </p>
 
-    <script>
-      function main() {
-        document.querySelector('#pastedText').addEventListener('input', onPastedTextChanged);
-        onPastedTextChanged();
-      }
+  <script>
+    function main() {
+      document.querySelector('#pastedText').addEventListener('input', onPastedTextChanged);
+      onPastedTextChanged();
+    }
 
-      function onPastedTextChanged() {
-        const textBox = document.querySelector('#pastedText');
-        try {
-          const lines = textBox.value.split('\n');
-          for (let i = 0; i < lines.length; i++) {
-            lines[i] = lines[i].trim();
-          }
-
-          let percent = [];
-          let total = 0;
-          let dateStr = '';
-
-          for (let i = 0; i < NUM_SELECTIONS; i++) {
-            const m = lines[i * 2 + 1].match(/^(\d+(\.\d+)?)%$/);
-            percent.push(parseFloat(m[1]));
-          }
-
-          {
-            const m = lines[8].match(/^(\d+)票$/);
-            total = parseInt(m[1]);
-          }
-
-          {
-            const m = lines[11].match(/(\d{4})年(\d{1,2})月(\d{1,2})日$/);
-            const date = new Date(m[1], m[2] - 1, m[3]);
-            //date.setDate(date.getDate() + 1);
-            date.setTime(date.getTime() + 9 * 60 * 60 * 1000);
-            // date を YYYY-MM-DD 形式に変換
-            dateStr = date.toISOString().slice(0, 10);
-          }
-
-          const out = `{ date: '${dateStr}', total: ${total}  , percent: [${percent.join(', ')}], url: '(URL貼り付け)' },`;
-          document.querySelector('#jsonCode').textContent = out;
-          textBox.style.backgroundColor = 'unset';
+    function onPastedTextChanged() {
+      const textBox = document.querySelector('#pastedText');
+      try {
+        const lines = textBox.value.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+          lines[i] = lines[i].trim();
         }
-        catch (e) {
-          document.querySelector('#jsonCode').textContent = e;
-          textBox.style.backgroundColor = 'red';
-          throw e;
+
+        let percent = [];
+        let total = 0;
+        let dateStr = '';
+
+        for (let i = 0; i < NUM_SELECTIONS; i++) {
+          const m = lines[i * 2 + 1].match(/^(\d+(\.\d+)?)%$/);
+          percent.push(parseFloat(m[1]));
         }
+
+        {
+          const m = lines[8].match(/^(\d+)票$/);
+          total = parseInt(m[1]);
+        }
+
+        {
+          const m = lines[11].match(/(\d{4})年(\d{1,2})月(\d{1,2})日$/);
+          const date = new Date(m[1], m[2] - 1, m[3]);
+          //date.setDate(date.getDate() + 1);
+          date.setTime(date.getTime() + 9 * 60 * 60 * 1000);
+          // date を YYYY-MM-DD 形式に変換
+          dateStr = date.toISOString().slice(0, 10);
+        }
+
+        const out = `{ date: '${dateStr}', total: ${total}  , percent: [${percent.join(', ')}], url: '(URL貼り付け)' },`;
+        document.querySelector('#jsonCode').textContent = out;
+        textBox.style.backgroundColor = 'unset';
       }
+      catch (e) {
+        document.querySelector('#jsonCode').textContent = e;
+        textBox.style.backgroundColor = 'red';
+        throw e;
+      }
+    }
 
-      window.onload = main;
+    window.onload = main;
 
-    </script>
+  </script>
 
-  </body>
+</body>
 
 </html>
